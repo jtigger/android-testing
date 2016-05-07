@@ -78,37 +78,24 @@ public class NoteDetailScreenTest {
             new ActivityTestRule<>(NoteDetailActivity.class, true /* Initial touch mode  */,
                     false /* Lazily launch activity */);
 
-    /**
-     * Setup your test fixture with a fake note id. The {@link NoteDetailActivity} is started with
-     * a particular note id, which is then loaded from the service API.
-     *
-     * <p>
-     * Note that this test runs hermetically and is fully isolated using a fake implementation of
-     * the service API. This is a great way to make your tests more reliable and faster at the same
-     * time, since they are isolated from any outside dependencies.
-     */
     @Before
-    public void intentWithStubbedNoteId() {
-//        // Add a note stub to the fake service api layer.
-//        FakeNotesServiceApiImpl.addNotes(NOTE);
-//
-//        // Lazily start the Activity from the ActivityTestRule this time to inject the start Intent
-//        Intent startIntent = new Intent();
-//        startIntent.putExtra(NoteDetailActivity.EXTRA_NOTE_ID, NOTE.getId());
-//        mNoteDetailActivityTestRule.launchActivity(startIntent);
-//
-//        registerIdlingResource();
+    public void given_startedWithIntentReferencingExistingNote() {
+        FakeNotesServiceApiImpl.addNotes(NOTE);
+
+        Intent startIntent = new Intent();
+        startIntent.putExtra(NoteDetailActivity.EXTRA_NOTE_ID, NOTE.getId());
+        mNoteDetailActivityTestRule.launchActivity(startIntent);
+
+        registerIdlingResource();
     }
 
     @Test
     public void noteDetails_DisplayedInUi() throws Exception {
-        fail("Implement step 7");
-//        // Check that the note title, description and image are displayed
-//        onView(withId(R.id.note_detail_title)).check(matches(withText(NOTE_TITLE)));
-//        onView(withId(R.id.note_detail_description)).check(matches(withText(NOTE_DESCRIPTION)));
-//        onView(withId(R.id.note_detail_image)).check(matches(allOf(
-//                hasDrawable(),
-//                isDisplayed())));
+        onView(withId(R.id.note_detail_title)).check(matches(withText(NOTE_TITLE)));
+        onView(withId(R.id.note_detail_description)).check(matches(withText(NOTE_DESCRIPTION)));
+        onView(withId(R.id.note_detail_image)).check(matches(allOf(
+                hasDrawable(),
+                isDisplayed())));
     }
 
     /**

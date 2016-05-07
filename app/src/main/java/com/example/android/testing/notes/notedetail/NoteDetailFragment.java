@@ -102,14 +102,14 @@ public class NoteDetailFragment extends Fragment implements NoteDetailContract.V
 
     @Override
     public void showDescription(String description) {
-//        mDetailDescription.setVisibility(View.VISIBLE);
-//        mDetailDescription.setText(description);
+        mDetailDescription.setVisibility(View.VISIBLE);
+        mDetailDescription.setText(description);
     }
 
     @Override
     public void showTitle(String title) {
-//        mDetailTitle.setVisibility(View.VISIBLE);
-//        mDetailTitle.setText(title);
+        mDetailTitle.setVisibility(View.VISIBLE);
+        mDetailTitle.setText(title);
     }
 
     @Override
