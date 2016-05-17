@@ -16,13 +16,13 @@
 
 package com.example.android.testing.notes.addnote;
 
+import com.example.android.testing.notes.NotesApp;
 import com.example.android.testing.notes.R;
 import com.example.android.testing.notes.util.EspressoIdlingResource;
 
 import android.os.Bundle;
 import android.support.annotation.VisibleForTesting;
 import android.support.test.espresso.IdlingResource;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
@@ -33,6 +33,18 @@ import android.support.v7.widget.Toolbar;
  * Displays an add note screen.
  */
 public class AddNoteActivity extends AppCompatActivity {
+    private AddNoteComponent mComponent;
+
+    public AddNoteComponent component() {
+        return mComponent;
+    }
+
+    private AddNoteComponent buildAddNoteComponent(AddNoteContract.View addNoteView) {
+        return DaggerAddNoteComponent.builder()
+                .appComponent(((NotesApp) getApplication()).component())
+                .addNoteModule(new AddNoteModule(addNoteView))
+                .build();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +60,9 @@ public class AddNoteActivity extends AppCompatActivity {
         actionBar.setDisplayShowHomeEnabled(true);
 
         if (null == savedInstanceState) {
-            initFragment(AddNoteFragment.newInstance());
+            final AddNoteFragment detailFragment = AddNoteFragment.newInstance();
+            initFragment(detailFragment);
+            mComponent = buildAddNoteComponent(detailFragment);
         }
     }
 
@@ -58,8 +72,7 @@ public class AddNoteActivity extends AppCompatActivity {
         return true;
     }
 
-    private void initFragment(Fragment detailFragment) {
-        // Add the AddNoteFragment to the layout
+    private void initFragment(AddNoteFragment detailFragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.add(R.id.contentFrame, detailFragment);

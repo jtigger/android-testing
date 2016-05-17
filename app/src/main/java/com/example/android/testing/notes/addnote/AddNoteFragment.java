@@ -47,6 +47,8 @@ import android.widget.TextView;
 
 import java.io.IOException;
 
+import javax.inject.Inject;
+
 import static com.google.common.base.Preconditions.checkState;
 
 /**
@@ -57,7 +59,8 @@ public class AddNoteFragment extends Fragment implements AddNoteContract.View {
 
     public static final int REQUEST_CODE_IMAGE_CAPTURE = 0x1001;
 
-    private AddNoteContract.UserActionsListener mActionListener;
+    @Inject
+    AddNoteContract.UserActionsListener mActionListener;
 
     private TextView mTitle;
 
@@ -76,8 +79,7 @@ public class AddNoteFragment extends Fragment implements AddNoteContract.View {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mActionListener = new AddNotePresenter(Injection.provideNotesRepository(), this,
-                Injection.provideImageFile());
+        ((AddNoteActivity) getActivity()).component().inject(this);
 
         FloatingActionButton fab =
                 (FloatingActionButton) getActivity().findViewById(R.id.fab_add_notes);
